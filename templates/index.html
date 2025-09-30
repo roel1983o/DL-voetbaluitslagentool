@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Uitslagen Export (Excel → TXT)</title>
+    <title>DL amateurvoetbal tool</title>
     <style>
       :root {
         --bg: #f8fafc;
@@ -63,8 +63,8 @@
   <body>
     <div class="wrap">
       <div class="card">
-        <h1>Uitslagen Export (Excel → TXT)</h1>
-        <p class="lead">Upload je Excelbestand (.xlsx). We herkennen automatisch de divisie-/klassenkoppen en maken direct de TXT-uitvoer.</p>
+        <h1>DL amateurvoetbal tool</h1>
+        <p class="lead">Upload het ingevulde Excelbestand (.xlsx). Klik daarna op de knop hieronder. Je krijgt dan een txt-bestand dat je in CUE moet plakken.</p>
 
         {% set msgs = get_flashed_messages() %}
         {% if msgs %}
@@ -80,11 +80,11 @@
           <div class="row">
             <input type="file" name="file" accept=".xlsx" id="file" required>
           </div>
-          <button id="submit" type="submit" disabled>Maak TXT</button>
+          <button id="submit" type="submit" disabled>Maak CUE export (.txt)</button>
         </form>
       </div>
 
-      <footer>© Uitslagen Export</footer>
+      <footer>© DL/MHNL 2025</footer>
     </div>
 
     <script>
