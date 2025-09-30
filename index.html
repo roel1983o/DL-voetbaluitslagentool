@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Uitslagen Export</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 2rem; }
+      .card { max-width: 640px; margin: 0 auto; padding: 1.5rem; border: 1px solid #e5e7eb; border-radius: 12px; }
+      h1 { font-size: 1.5rem; margin-bottom: 1rem; }
+      p.help { color: #4b5563; }
+      input[type=file] { padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 8px; width: 100%; }
+      button { margin-top: 1rem; padding: 0.75rem 1rem; border: 0; border-radius: 10px; background: black; color: white; cursor: pointer; }
+      .flash { background: #fef3c7; color: #92400e; padding: 0.75rem; border-radius: 8px; margin-bottom: 1rem; }
+      footer { text-align: center; color: #6b7280; margin-top: 2rem; font-size: 0.9rem; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Uitslagen Export (Excel → TXT)</h1>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for msg in messages %}
+            <div class="flash">{{ msg }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      <form method="post" enctype="multipart/form-data">
+        <p class="help">
+          Upload je Excelbestand (.xlsx). We herkennen automatisch de divisie-/klassenkoppen en maken direct de TXT-uitvoer.
+        </p>
+        <input type="file" name="file" accept=".xlsx" required>
+        <button type="submit">Maak TXT</button>
+      </form>
+    </div>
+    <footer>© Uitslagen Export</footer>
+  </body>
+</html>
