@@ -3,36 +3,96 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Uitslagen Export</title>
+    <title>Uitslagen Export (Excel → TXT)</title>
     <style>
-      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 2rem; }
-      .card { max-width: 640px; margin: 0 auto; padding: 1.5rem; border: 1px solid #e5e7eb; border-radius: 12px; }
-      h1 { font-size: 1.5rem; margin-bottom: 1rem; }
-      p.help { color: #4b5563; }
-      input[type=file] { padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 8px; width: 100%; }
-      button { margin-top: 1rem; padding: 0.75rem 1rem; border: 0; border-radius: 10px; background: black; color: white; cursor: pointer; }
-      .flash { background: #fef3c7; color: #92400e; padding: 0.75rem; border-radius: 8px; margin-bottom: 1rem; }
-      footer { text-align: center; color: #6b7280; margin-top: 2rem; font-size: 0.9rem; }
+      :root {
+        --bg: #f8fafc;
+        --text: #111827;
+        --muted: #6b7280;
+        --card: #ffffff;
+        --border: #e5e7eb;
+        --btn: #111827;
+        --btn-text: #ffffff;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0; background: var(--bg); color: var(--text);
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      }
+      .wrap { max-width: 920px; margin: 40px auto; padding: 0 16px; }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 24px;
+      }
+      h1 { font-size: 24px; margin: 0 0 8px 0; }
+      p.lead { margin: 0 0 16px 0; color: var(--muted); }
+      .row { margin: 16px 0; }
+      input[type="file"] {
+        display: inline-block;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #fff;
+      }
+      button {
+        margin-top: 12px;
+        padding: 10px 16px;
+        border: 0;
+        border-radius: 10px;
+        background: var(--btn);
+        color: var(--btn-text);
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button:disabled { opacity: .5; cursor: not-allowed; }
+      .alerts { margin: 8px 0 0; }
+      .alert {
+        padding: 10px 12px; border-radius: 8px; font-size: 14px;
+        background: #fef3c7; color: #92400e; border: 1px solid #fde68a;
+        display: inline-block;
+      }
+      footer {
+        text-align: center; color: var(--muted);
+        font-size: 13px; margin: 18px 0 0;
+      }
     </style>
   </head>
   <body>
-    <div class="card">
-      <h1>Uitslagen Export (Excel → TXT)</h1>
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          {% for msg in messages %}
-            <div class="flash">{{ msg }}</div>
-          {% endfor %}
+    <div class="wrap">
+      <div class="card">
+        <h1>Uitslagen Export (Excel → TXT)</h1>
+        <p class="lead">Upload je Excelbestand (.xlsx). We herkennen automatisch de divisie-/klassenkoppen en maken direct de TXT-uitvoer.</p>
+
+        {% set msgs = get_flashed_messages() %}
+        {% if msgs %}
+          <div class="alerts">
+            {% for msg in msgs %}
+              <div class="alert">{{ msg }}</div>
+            {% endfor %}
+          </div>
         {% endif %}
-      {% endwith %}
-      <form method="post" enctype="multipart/form-data">
-        <p class="help">
-          Upload je Excelbestand (.xlsx). We herkennen automatisch de divisie-/klassenkoppen en maken direct de TXT-uitvoer.
-        </p>
-        <input type="file" name="file" accept=".xlsx" required>
-        <button type="submit">Maak TXT</button>
-      </form>
+        {% if error %}<div class="alerts"><div class="alert">{{ error }}</div></div>{% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+          <div class="row">
+            <input type="file" name="file" accept=".xlsx" id="file" required>
+          </div>
+          <button id="submit" type="submit" disabled>Maak TXT</button>
+        </form>
+      </div>
+
+      <footer>© Uitslagen Export</footer>
     </div>
-    <footer>© Uitslagen Export</footer>
+
+    <script>
+      const fileInput = document.getElementById('file');
+      const submit = document.getElementById('submit');
+      fileInput.addEventListener('change', () => {
+        submit.disabled = !fileInput.files.length || !fileInput.files[0].name.toLowerCase().endsWith('.xlsx');
+      });
+    </script>
   </body>
 </html>
